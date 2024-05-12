@@ -101,6 +101,8 @@ class TextRecognizerPainter extends CustomPainter {
       Rect.fromLTRB(boxLeft, boxTop, boxRight, boxBottom),
       paintbox,
     );
+    // canvas.drawCircle(Offset(170,200), 30, paintbox);
+    // final Paint paintbox = paintboxCustom ?? Paint();
     List textBlocks = [];
     for (final textBunk in recognizedText.blocks) {
       for (final element in textBunk.lines) {
@@ -111,34 +113,60 @@ class TextRecognizerPainter extends CustomPainter {
               (textBlock.boundingBox.top), rotation, size, absoluteImageSize);
           final right = translateX(
               (textBlock.boundingBox.right), rotation, size, absoluteImageSize);
+          /// Where the filter area is decided
+          // if (left >= boxLeft &&
+          //     right <= boxRight &&
+          //     (top >= (boxTop + 15) && top <= (boxBottom - 20))) {
+          //   textBlocks.add(textBlock);
+          //
+          //   var parsedText = textBlock.text;
+          //   scannedText += " ${textBlock.text}";
+          //
+          //   final ParagraphBuilder builder = ParagraphBuilder(
+          //     ParagraphStyle(
+          //         textAlign: TextAlign.left,
+          //         fontSize: 14,
+          //         textDirection: TextDirection.ltr),
+          //   );
+          //   builder.pushStyle(
+          //       ui.TextStyle(color: Colors.white, background: background));
+          //   builder.addText(parsedText);
+          //   builder.pop();
+          //
+          //   /// This disabled the display text on screen function
+          //   canvas.drawParagraph(
+          //     builder.build()
+          //       ..layout(ParagraphConstraints(
+          //         width: right - left,
+          //       )),
+          //     Offset(left, top),
+          //   );
+          // }
+          /// This tries to ignore the displayed size
+          textBlocks.add(textBlock);
 
-          if (left >= boxLeft &&
-              right <= boxRight &&
-              (top >= (boxTop + 15) && top <= (boxBottom - 20))) {
-            textBlocks.add(textBlock);
+          var parsedText = textBlock.text;
+          scannedText += " ${textBlock.text}";
 
-            var parsedText = textBlock.text;
-            scannedText += " ${textBlock.text}";
+          final ParagraphBuilder builder = ParagraphBuilder(
+            ParagraphStyle(
+                textAlign: TextAlign.left,
+                fontSize: 14,
+                textDirection: TextDirection.ltr),
+          );
+          builder.pushStyle(
+              ui.TextStyle(color: Colors.white, background: background));
+          builder.addText(parsedText);
+          builder.pop();
 
-            final ParagraphBuilder builder = ParagraphBuilder(
-              ParagraphStyle(
-                  textAlign: TextAlign.left,
-                  fontSize: 14,
-                  textDirection: TextDirection.ltr),
-            );
-            builder.pushStyle(
-                ui.TextStyle(color: Colors.white, background: background));
-            builder.addText(parsedText);
-            builder.pop();
-
-            canvas.drawParagraph(
-              builder.build()
-                ..layout(ParagraphConstraints(
-                  width: right - left,
-                )),
-              Offset(left, top),
-            );
-          }
+          /// This disabled the display text on screen function
+          canvas.drawParagraph(
+            builder.build()
+              ..layout(ParagraphConstraints(
+                width: right - left,
+              )),
+            Offset(left, top),
+          );
         }
       }
     }

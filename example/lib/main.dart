@@ -20,7 +20,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: const MyHomePage(title: 'Flutter Scalable OCR'),
+      home: const MyHomePage(title: 'Center The Phone'),
     );
   }
 }
@@ -31,7 +31,7 @@ class MyHomePage extends StatefulWidget {
   final String title;
 
   @override
-  State<MyHomePage> get createState => _MyHomePageState();
+  State<MyHomePage> createState() => _MyHomePageState();
 }
 
 class _MyHomePageState extends State<MyHomePage> {
@@ -52,7 +52,7 @@ class _MyHomePageState extends State<MyHomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          title: Text(widget.title),
+          title: Center(child: Text(widget.title)),
         ),
         body: Center(
           child: Column(
@@ -67,7 +67,7 @@ class _MyHomePageState extends State<MyHomePage> {
                   boxBottomOff: 2.5,
                   boxRightOff: 5,
                   boxTopOff: 2.5,
-                  boxHeight: MediaQuery.of(context).size.height / 3,
+                  boxHeight: MediaQuery.of(context).size.height * 0.5,
                   getRawData: (value) {
                     inspect(value);
                   },
@@ -98,6 +98,6 @@ class Result extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Text("Readed text: $text");
+    return Text("Center Letter A Inside The Circle: $text");
   }
 }

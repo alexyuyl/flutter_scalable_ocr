@@ -87,9 +87,11 @@ class ScalableOCRState extends State<ScalableOCR> {
 
   @override
   Widget build(BuildContext context) {
+    // double sizeH = height * 0.01;
     double sizeH = MediaQuery.of(context).size.height / 100;
     return Padding(
         padding: EdgeInsets.all(sizeH * 3),
+        // padding = height * 0.03;
         child: SingleChildScrollView(
           child: Column(
             children: [
@@ -127,8 +129,7 @@ class ScalableOCRState extends State<ScalableOCR> {
           children: <Widget>[
             Center(
               child: SizedBox(
-                height:
-                    widget.boxHeight ?? MediaQuery.of(context).size.height / 5,
+                height: widget.boxHeight ?? MediaQuery.of(context).size.height / 5,
                 key: cameraPrev,
                 child: AspectRatio(
                   aspectRatio: 1 / previewAspectRatio,
@@ -141,26 +142,28 @@ class ScalableOCRState extends State<ScalableOCR> {
                         scale: cameraController.value.aspectRatio /
                             previewAspectRatio,
                         child: Center(
-                          child: CameraPreview(cameraController, child:
-                              LayoutBuilder(builder: (BuildContext context,
-                                  BoxConstraints constraints) {
-                            maxWidth = constraints.maxWidth;
-                            maxHeight = constraints.maxHeight;
-
-                            return GestureDetector(
-                              behavior: HitTestBehavior.opaque,
-                              onScaleStart: _handleScaleStart,
-                              onScaleUpdate: _handleScaleUpdate,
-                              onTapDown: (TapDownDetails details) =>
-                                  onViewFinderTap(details, constraints),
-                            );
-                          })),
+                          child: CameraPreview(
+                            cameraController,
+                            child: LayoutBuilder(
+                                builder: (BuildContext context, BoxConstraints constraints) {
+                                  maxWidth = constraints.maxWidth;
+                                  maxHeight = constraints.maxHeight;
+                                  return GestureDetector(
+                                    behavior: HitTestBehavior.opaque,
+                                    onScaleStart: _handleScaleStart,
+                                    onScaleUpdate: _handleScaleUpdate,
+                                    onTapDown: (TapDownDetails details) => onViewFinderTap(details, constraints),
+                                  );
+                                }
+                            )
+                          ),
                         ),
                       ),
                     ),
                   ),
                 ),
               ),
+
             ),
             if (customPaint != null)
               LayoutBuilder(
@@ -200,6 +203,7 @@ class ScalableOCRState extends State<ScalableOCR> {
         zoomLevel = value;
         minZoomLevel = value;
       });
+      _controller?.setZoomLevel(1.0);
       _controller?.getMaxZoomLevel().then((value) {
         maxZoomLevel = value;
       });
@@ -322,7 +326,8 @@ class ScalableOCRState extends State<ScalableOCR> {
           boxTopOff: widget.boxTopOff,
           boxRightOff: widget.boxRightOff,
           boxLeftOff: widget.boxRightOff,
-          paintboxCustom: widget.paintboxCustom);
+          // paintboxCustom: widget.paintboxCustom
+      );
 
       customPaint = CustomPaint(painter: painter);
     } else {
